@@ -1,0 +1,313 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Practica 4 Convolucion y correlacion</title><meta name="generator" content="MATLAB 8.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-11-12"><meta name="DC.source" content="SySPrac4ToledoArturo_VargasCesar.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Practica 4 Convolucion y correlacion</h1><!--introduction--><p>Grupo: 2TV2</p><p>Materia: Se&ntilde;ales y Sistemas</p><p>Alumnos:</p><p><b>Vargas Cano Cesar David</b></p><p><b>Toledo Aguado Arturo Emmanuel</b></p><p>Profesor: Dr. Rafael Mart&iacute;nez Mart&iacute;nez</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Objetivos</a></li><li><a href="#3">Introduccion</a></li><li><a href="#4">Ejercicio 1</a></li><li><a href="#7">Ejercicio 2</a></li><li><a href="#9">Ejercicio 3</a></li><li><a href="#13">Ejercicio 4</a></li></ul></div><h2>Objetivos<a name="1"></a></h2><div><ul><li>Conocer m&eacute;todos b&aacute;sicos de integraci&oacute;n num&eacute;rica</li></ul></div><div><ul><li>Simular convoluciones y correlaciones de se&ntilde;ales continuas</li></ul></div><div><ul><li>Manipulaci&oacute;n de instrucciones en MATLAB</li></ul></div><h2>Introduccion<a name="3"></a></h2><p>En el an&aacute;lisis num&eacute;rico, la integraci&oacute;n num&eacute;rica constituye un amplio campo de algoritmos que son utilizados para calcular el valor num&eacute;rico de una integral definida.</p><p>Existen varias razones para la utilizaci&oacute;n de la integraci&oacute;n num&eacute;rica: 1.- La funci&oacute;n a integrar f(x) debe ser conocida &uacute;nicamente en ciertos puntos. 2.- La funci&oacute;n a integrar es muy dif&iacute;cil o imposible de encontrar su antiderivada, un ejemplo de ello es la funci&oacute;n f(x)=e^(-x^2), la cu&aacute;l es la funci&oacute;n error, su antiderivada no puede ser descrita en forma elemental. 3.- Puede ser posible encontrar una antiderivada de una funci&oacute;n de manera simb&oacute;lica, pero es posible que sea m&aacute;s sencillo encontrar su aproximaci&oacute;n num&eacute;rica que calcular su antiderivada.</p><p>Existen diversos m&eacute;todos para realizar aproximaciones num&eacute;ricas, entre ellos se encuentran las reglas de cuadratura Newton-Cotes, llamadas as&iacute; debido a Isaac Newton y Roger Cotes. Las f&oacute;rmulas Newton-Cotes son &uacute;tiles para encontrar el valor de la integral en espacios equidistantes entre s&iacute;.</p><div><ul><li>Regla del Trapecio</li></ul></div><p>Reescribimos la funci&oacute;n del integrando en t&eacute;rminos de un polinomio de primer grado: con n=1</p><p><img src="SySPrac4ToledoArturo_VargasCesar_eq13192831071630869249.png" alt="$$ \int_{x_0}^{x_1}f(x)dx= \frac{n}{2}[f(x_0)+f(x_1)]-\frac{n}{12}f&#34;(\epsilon)$$"></p><p>Donde <img src="SySPrac4ToledoArturo_VargasCesar_eq10529572468039843114.png" alt="$$ x_0 < \epsilon < x_1 $$"></p><p><img src="SySPrac4ToledoArturo_VargasCesar_eq03096811968274295178.png" alt="$$ x_0=a $$"></p><p><img src="SySPrac4ToledoArturo_VargasCesar_eq09752176196043614038.png" alt="$$ x_1=b $$"></p><p><img src="SySPrac4ToledoArturo_VargasCesar_eq14691358622302907173.png" alt="$$ n = b-a $$"></p><p><img src="SySPrac4ToledoArturo_VargasCesar_eq17308981105462574472.png" alt="$$ x_i=a+i(b-a) , i=0,1 $$"></p><p>Ejemplo</p><p><img src="SySPrac4ToledoArturo_VargasCesar_eq16880265893994378376.png" alt="$$\int_{-1}^{1} e^{-x^{2}} dx = \frac{2}{2}\big[e^{-1} + e^{-1}\big] - \frac{8}{12}\big[-2e^{-\xi^{2}}(1-2\xi^{2})\big],-1<\xi<1$$&#xA;$$0.7357+\frac{4}{3} e^{-\xi^{2}}(1-2\xi^{2}),-1<\xi<1$$"></p><div><ul><li>Regla de Simpson 1/3</li></ul></div><p>Reescribimos la funci&oacute;n en t&eacute;rminos de un polinomio de segundo orden, usando interpolaci&oacute;n de Lagrange para lo cu&aacute;l se necesitan 3 puntos igualmente espaciados. F&oacute;rmula:</p><p>Regla de simpson 1/3 (n=2)</p><p><img src="SySPrac4ToledoArturo_VargasCesar_eq01078627178209444211.png" alt="$$\int_{x_{0}}^{x_{1}} f(x) dx = \frac{h}{3} \big[f(x_{0}) + 4f(x_{1})+f(x_{2})\big] - \frac{h^5}{90} f^4(\xi)$$"></p><p>Donde: <img src="SySPrac4ToledoArturo_VargasCesar_eq04607145063014089173.png" alt="$$x_{0} < \xi < x_{1}$">$ <img src="SySPrac4ToledoArturo_VargasCesar_eq18212259655346358977.png" alt="$$ x_{0}= a,  x_{i}= b, h = \frac{b-a}{2} $$"></p><p><img src="SySPrac4ToledoArturo_VargasCesar_eq03534155630569418933.png" alt="$$\left\{ \begin{array}{lcc}&#xA;            x_{i} = a+ib &amp; i = 0,1,2\\&#xA;            \\ x_{i} = a+b-a =b \\&#xA;            \end{array}&#xA;  \right.$$"></p><p>Ejemplo:</p><p><img src="SySPrac4ToledoArturo_VargasCesar_eq01193326084246059742.png" alt="$\int_{-1}^1e^{-x^{2}}dx = \frac{1}{3}\big[e^{-1} + 4e^{0}+e^{-1}\big] - \frac{1}{90}\big[-4e^{-\xi^{2}}(-4\xi^4+12\xi^{2}-3)\big],-1<\xi<1$"> <img src="SySPrac4ToledoArturo_VargasCesar_eq11447665833741563956.png" alt="$1.5785+\frac{2}{45}\big[-4e^{-\xi^{2}}(-4\xi^4+12\xi^{2}-3)\big],-1<\xi<1$"></p><div><ul><li>Regla de Simpson 3/8</li></ul></div><p>Reescribimos la funci&oacute;n en t&eacute;rminos de un polinomio de grado 3. F&oacute;rmula:</p><p><img src="SySPrac4ToledoArturo_VargasCesar_eq00828029852158218272.png" alt="$\int_{x_{0}}^{x_{1}} f(x) dx = \frac{3h}{8} \big[f(x_{0}) + 3f(x_{1})+3f(x_{2})+f(x_{3})\big] - \frac{3h^5}{8} f^4(\xi), x_{0}<\xi<x_{3}$"></p><p>Donde: <img src="SySPrac4ToledoArturo_VargasCesar_eq05901916749830813670.png" alt="$x_{0} < \xi < x_{1}$"></p><p><img src="SySPrac4ToledoArturo_VargasCesar_eq04754344286854065811.png" alt="$x_{0}= a,  x_{i}= b, h = \frac{b-a}{3}$"></p><p><img src="SySPrac4ToledoArturo_VargasCesar_eq01789565990867937660.png" alt="$\left\{ \begin{array}{lcc}            x_{i} = a + \frac{b-a}{3} = \frac{2a+b}{3}\\            \\             x_{i} = a +i( \frac{b-a}{3}) &amp; i = 0,1,2\\             \\  x_{2} = a + \frac{2b-2a}{3} = \frac{a+2b}{3}\\             \end{array}   \right.$"></p><p>Ejemplo <img src="SySPrac4ToledoArturo_VargasCesar_eq04004545726489314885.png" alt="$\int_{-1}^{1} e^{-x^{2}} dx = \frac{3}{8}(\frac{2}{3})\big[e^{-1} + 3e^{-\frac{1}{9}}+3e^{-\frac{1}{9}}+e^{-1}\big] - \frac{3}{80}(\frac{2}{3})^5\big[-4e^{-\xi^{2}}(-4\xi^4)(-4\xi^4+12\xi^{2}-3)\big],-1<\xi<1$"> <img src="SySPrac4ToledoArturo_VargasCesar_eq08201147714656497863.png" alt="$1.5261+\frac{8}{405}e^{-\xi^{2}}(-4\xi^4+12\xi^{2}-3),-1<\xi<1$"></p><div><ul><li>Cuadratura de Gauss</li></ul></div><p>Es una aproximaci&oacute;n de una integral definida de una funci&oacute;n que selecciona los puntos de la evaluaci&oacute;n de manera &oacute;ptima y no en una forma igualmente espaciada, constru&iacute;da para dar el resultado de un polinomio de grado 2n-1 o menos, elegibles para los puntos xj y los coeficientes wj con j = 1,...,n.</p><h2>Ejercicio 1<a name="4"></a></h2><p><img vspace="5" hspace="5" src="ej14.png" alt=""> </p><p>Por el metodo analitico nosotros sabemos que el producto de la convolucion  <img src="SySPrac4ToledoArturo_VargasCesar_eq16342655556185011296.png" alt="$$ p(t) = f(t) * g(t) $$"></p><p><img vspace="5" hspace="5" src="CodeCogsEqn.gif" alt=""> </p><p><img vspace="5" hspace="5" src="f(t)1.png" alt=""> </p><p><img vspace="5" hspace="5" src="g(t)1.png" alt=""> </p><p><img vspace="5" hspace="5" src="con1.png" alt=""> </p><p><img vspace="5" hspace="5" src="gra1.png" alt=""> </p><h2>Ejercicio 2<a name="7"></a></h2><p><img vspace="5" hspace="5" src="eje24.png" alt=""> </p><p>Por el metodo analitico nosotros sabemos que el producto de la convolucion  <img src="SySPrac4ToledoArturo_VargasCesar_eq16342655556185011296.png" alt="$$ p(t) = f(t) * g(t) $$"></p><p><img vspace="5" hspace="5" src="ejer2.png" alt=""> </p><p><img vspace="5" hspace="5" src="f(t)2.png" alt=""> </p><p><img vspace="5" hspace="5" src="g(t)2.png" alt=""> </p><p><img vspace="5" hspace="5" src="con2.png" alt=""> </p><p><img vspace="5" hspace="5" src="gra2.png" alt=""> </p><h2>Ejercicio 3<a name="9"></a></h2><p><img vspace="5" hspace="5" src="eje34.png" alt=""> </p><p>Realizando la correlacion tratandola como convolucion se obtiene que:  <img src="SySPrac4ToledoArturo_VargasCesar_eq04884615946995210589.png" alt="$$ r_{ff}(t) = x_1(t)* x_1(-t) $$"></p><p><img vspace="5" hspace="5" src="correlacion1.png" alt=""> </p><p><img vspace="5" hspace="5" src="f(t)3.png" alt=""> </p><p><img vspace="5" hspace="5" src="g(t)3.png" alt=""> </p><p><img vspace="5" hspace="5" src="cor1.png" alt=""> </p><p><img vspace="5" hspace="5" src="gra3.png" alt=""> </p><h2>Ejercicio 4<a name="13"></a></h2><p><img vspace="5" hspace="5" src="eje44a.png" alt=""> </p><p><img vspace="5" hspace="5" src="eje44c.png" alt=""> </p><p><img vspace="5" hspace="5" src="eje44b.png" alt=""> </p><p>Realizando la correlacion tratandola como convolucion se obtiene que:  <img src="SySPrac4ToledoArturo_VargasCesar_eq10659561757301608039.png" alt="$$ x(t) = x_0(t)* x_1(-t) $$"></p><p><img vspace="5" hspace="5" src="corre2.png" alt=""> </p><p><img vspace="5" hspace="5" src="f(t)4.png" alt=""> </p><p><img vspace="5" hspace="5" src="g(t)4.png" alt=""> </p><p><img vspace="5" hspace="5" src="cor2.png" alt=""> </p><p><img vspace="5" hspace="5" src="gra4.png" alt=""> </p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Practica 4 Convolucion y correlacion
+%
+% Grupo: 2TV2
+%
+% Materia: Señales y Sistemas
+%
+% Alumnos:
+%
+% *Vargas Cano Cesar David*
+%
+% *Toledo Aguado Arturo Emmanuel*
+%
+% Profesor: Dr. Rafael Martínez Martínez
+%
+%% Objetivos
+%
+%%
+% 
+% * Conocer métodos básicos de integración numérica
+%
+% * Simular convoluciones y correlaciones de señales continuas
+%
+% * Manipulación de instrucciones en MATLAB
+%
+%% Introduccion
+%
+% En el análisis numérico, la integración numérica constituye un amplio
+% campo de algoritmos que son utilizados para calcular el valor numérico de
+% una integral definida.
+%
+% Existen varias razones para la utilización de la integración numérica:
+% 1.- La función a integrar f(x) debe ser conocida únicamente en ciertos
+% puntos.
+% 2.- La función a integrar es muy difícil o imposible de encontrar su
+% antiderivada, un ejemplo de ello es la función f(x)=e^(-x^2), la cuál es
+% la función error, su antiderivada no puede ser descrita en forma
+% elemental.
+% 3.- Puede ser posible encontrar una antiderivada de una función de manera
+% simbólica, pero es posible que sea más sencillo encontrar su aproximación
+% numérica que calcular su antiderivada.
+%
+% Existen diversos métodos para realizar aproximaciones numéricas, entre
+% ellos se encuentran las reglas de cuadratura Newton-Cotes, llamadas así
+% debido a Isaac Newton y Roger Cotes.
+% Las fórmulas Newton-Cotes son útiles para encontrar el valor de la
+% integral en espacios equidistantes entre sí.
+% 
+% * Regla del Trapecio
+%
+% Reescribimos la función del integrando en términos de un polinomio de
+% primer grado: con n=1
+%
+% $$ \int_{x_0}^{x_1}f(x)dx= \frac{n}{2}[f(x_0)+f(x_1)]-\frac{n}{12}f"(\epsilon)$$
+% 
+% Donde $$ x_0 < \epsilon < x_1 $$
+%
+% $$ x_0=a $$
+%
+% $$ x_1=b $$
+%
+% $$ n = b-a $$
+%
+% $$ x_i=a+i(b-a) , i=0,1 $$
+%
+% Ejemplo 
+% 
+% $$\int_{-1}^{1} e^{-x^{2}} dx = \frac{2}{2}\big[e^{-1} + e^{-1}\big] - \frac{8}{12}\big[-2e^{-\xi^{2}}(1-2\xi^{2})\big],-1<\xi<1$$
+% $$0.7357+\frac{4}{3} e^{-\xi^{2}}(1-2\xi^{2}),-1<\xi<1$$
+%
+% * Regla de Simpson 1/3
+%
+% Reescribimos la función en términos de un polinomio de segundo orden,
+% usando interpolación de Lagrange para lo cuál se necesitan 3 puntos
+% igualmente espaciados.
+% Fórmula:
+%
+% Regla de simpson 1/3 (n=2)
+%
+% $$\int_{x_{0}}^{x_{1}} f(x) dx = \frac{h}{3} \big[f(x_{0}) + 4f(x_{1})+f(x_{2})\big] - \frac{h^5}{90} f^4(\xi)$$
+%
+% Donde:
+% $$x_{0} < \xi < x_{1}$$
+% $$ x_{0}= a,  x_{i}= b, h = \frac{b-a}{2} $$
+%
+% $$\left\{ \begin{array}{lcc}
+%             x_{i} = a+ib & i = 0,1,2\\
+%             \\ x_{i} = a+b-a =b \\
+%             \end{array}
+%   \right.$$
+%
+% Ejemplo:
+%
+% $\int_{-1}^1e^{-x^{2}}dx = \frac{1}{3}\big[e^{-1} + 4e^{0}+e^{-1}\big] - \frac{1}{90}\big[-4e^{-\xi^{2}}(-4\xi^4+12\xi^{2}-3)\big],-1<\xi<1$
+% $1.5785+\frac{2}{45}\big[-4e^{-\xi^{2}}(-4\xi^4+12\xi^{2}-3)\big],-1<\xi<1$
+%
+% * Regla de Simpson 3/8
+%
+% Reescribimos la función en términos de un polinomio de grado 3.
+% Fórmula:
+%
+% $\int_{x_{0}}^{x_{1}} f(x) dx = \frac{3h}{8} \big[f(x_{0}) + 3f(x_{1})+3f(x_{2})+f(x_{3})\big] - \frac{3h^5}{8} f^4(\xi), x_{0}<\xi<x_{3}$
+%
+% Donde: 
+% $x_{0} < \xi < x_{1}$
+%
+% $x_{0}= a,  x_{i}= b, h = \frac{b-a}{3}$
+%
+% $\left\{ \begin{array}{lcc}
+%            x_{i} = a + \frac{b-a}{3} = \frac{2a+b}{3}\\ 
+%            \\
+%             x_{i} = a +i( \frac{b-a}{3}) & i = 0,1,2\\
+%             \\  x_{2} = a + \frac{2b-2a}{3} = \frac{a+2b}{3}\\
+%             \end{array}
+%   \right.$
+% 
+% Ejemplo
+% $\int_{-1}^{1} e^{-x^{2}} dx = \frac{3}{8}(\frac{2}{3})\big[e^{-1} + 3e^{-\frac{1}{9}}+3e^{-\frac{1}{9}}+e^{-1}\big] - \frac{3}{80}(\frac{2}{3})^5\big[-4e^{-\xi^{2}}(-4\xi^4)(-4\xi^4+12\xi^{2}-3)\big],-1<\xi<1$
+% $1.5261+\frac{8}{405}e^{-\xi^{2}}(-4\xi^4+12\xi^{2}-3),-1<\xi<1$
+%
+% * Cuadratura de Gauss
+%
+% Es una aproximación de una integral definida de una función que
+% selecciona los puntos de la evaluación de manera óptima y no en una
+% forma igualmente espaciada, construída para dar el resultado de un
+% polinomio de grado 2n-1 o menos, elegibles para los puntos xj y los
+% coeficientes wj con j = 1,...,n.
+% 
+%
+%% Ejercicio 1
+%
+%%
+% 
+% <<ej14.png>>
+% 
+% Por el metodo analitico nosotros sabemos que el producto de la
+% convolucion  $$ p(t) = f(t) * g(t) $$
+%
+% 
+% <<CodeCogsEqn.gif>>
+%
+%%
+% 
+% <<f(t)1.png>>
+% 
+% 
+% <<g(t)1.png>>
+% 
+% 
+% <<con1.png>>
+% 
+% 
+% <<gra1.png>>
+% 
+%% Ejercicio 2
+%
+% 
+% <<eje24.png>>
+% 
+%
+% Por el metodo analitico nosotros sabemos que el producto de la
+% convolucion  $$ p(t) = f(t) * g(t) $$
+%
+% 
+% <<ejer2.png>>
+%
+%%
+% 
+% <<f(t)2.png>>
+% 
+% 
+% <<g(t)2.png>>
+% 
+% 
+% <<con2.png>>
+% 
+% 
+% <<gra2.png>>
+% 
+%% Ejercicio 3
+%
+%%
+% 
+% <<eje34.png>>
+% 
+% Realizando la correlacion tratandola como convolucion se obtiene que:  $$
+% r_{ff}(t) = x_1(t)* x_1(-t) $$
+%
+%%
+% 
+% <<correlacion1.png>>
+%
+%%
+% 
+% <<f(t)3.png>>
+% 
+% 
+% <<g(t)3.png>>
+% 
+% 
+% <<cor1.png>>
+% 
+% 
+% <<gra3.png>>
+% 
+
+%% Ejercicio 4
+%
+%%
+% 
+% <<eje44a.png>>
+% 
+%%
+% 
+% <<eje44c.png>>
+% 
+%%
+% 
+% <<eje44b.png>>
+% 
+% Realizando la correlacion tratandola como convolucion se obtiene que:  $$
+% x(t) = x_0(t)* x_1(-t) $$
+%
+% 
+% <<corre2.png>>
+% 
+% <<f(t)4.png>>
+% 
+% 
+% <<g(t)4.png>>
+% 
+% 
+% <<cor2.png>>
+% 
+% 
+% <<gra4.png>>
+% 
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>
